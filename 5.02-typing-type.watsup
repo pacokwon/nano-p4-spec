@@ -1,6 +1,19 @@
+;;
+;; Equivalence of parameter types
+;;
+
 relation ParameterType_eq:
   parameterIR ~~ parameterIR
   hint(input %0 %1)
+
+rule ParameterType_eq:
+  (direction typeIR_a _)
+  ~~ (direction typeIR_b _)
+  -- Type_eq: typeIR_a ~~ typeIR_b
+
+;;
+;; Well-formedness of types
+;;
 
 rule Type_ok/signed:
   TC |- INT `< n > ~> INT `< n >
@@ -18,6 +31,10 @@ rule Type_ok/typeName:
   TC |- (`TID typeId) ~> typeIR
   -- if typeDefIR = $find_typeDef_t(TC, typeId)
   -- if typeIR = $typeIR_of_typeDefIR(typeDefIR)
+
+;;
+;; Equivalence of types
+;;
 
 rule Type_eq/baseTypeIR:
   baseTypeIR ~~ baseTypeIR
@@ -55,8 +72,3 @@ rulegroup Type_eq/objectTypeIR {
     (TABLE typeId) ~~ (TABLE typeId)
 
 }
-
-rule ParameterType_eq:
-  (direction typeIR_a _)
-  ~~ (direction typeIR_b _)
-  -- Type_eq: typeIR_a ~~ typeIR_b
