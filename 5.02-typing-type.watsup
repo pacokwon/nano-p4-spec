@@ -45,10 +45,6 @@ rulegroup Type_eq/dataTypeIR {
     (STRUCT typeId `{ _ `})
     ~~ (STRUCT typeId `{ _ `})
 
-  rule Type_eq/headerTypeIR:
-    (HEADER typeId `{ _ `})
-    ~~ (HEADER typeId `{ _ `})
-
 }
 
 rulegroup Type_eq/objectTypeIR {
