@@ -187,9 +187,11 @@ dec $find_var_t(scope, typingContext, id) : varTypeIR
 def $find_var_t(GLOBAL, TC, id) = varTypeIR
   -- if typeFrame = TC.GLOBAL.FRAME
   -- if varTypeIR = $find_map<id, varTypeIR>(typeFrame, id)
-def $find_var_t(BLOCK, TC, id) = varTypeIR
-  -- if typeFrame = TC.BLOCK.FRAME
-  -- if varTypeIR = $find_map<id, varTypeIR>(typeFrame, id)
+
+;; TODO: add the missing clause here!
+
+;;
+
 def $find_var_t(BLOCK, TC, id) = $find_var_t(GLOBAL, TC, id)
   -- if typeFrame = TC.BLOCK.FRAME
   -- if eps = $find_map<id, varTypeIR>(typeFrame, id)
