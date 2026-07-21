@@ -98,11 +98,6 @@ syntax type =
   | baseType
   | namedType
 
-syntax typeOrVoid =
-  | type
-  | VOID
-  | identifier
-
 ;;
 ;; Parameters
 ;;
