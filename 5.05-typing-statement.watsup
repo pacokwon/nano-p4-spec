@@ -34,8 +34,7 @@ rulegroup Statement_ok/callStatement {
   rule Statement_ok/callStatement-name:
     scope TC |- referenceExpression `( argumentList ) `; -| TC
     -- if callableId = $id(referenceExpression)
-    -- if callableTypeDef = $find_callableTypeDef_t(TC, callableId)
-    -- if parameterIR* = $params_of_callableTypeDef(callableTypeDef)
+    -- if ACTION parameterIR* = $find_callableTypeDef_t(TC, callableId)
     -- ArgumentList_ok: scope TC |- argumentList : argumentIR*
     -- Call_convention_ok: parameterIR* `@ argumentIR*
 
