@@ -8,13 +8,10 @@ dec $directionless_trailing'(bool, direction*) : bool
 def $directionless_trailing(direction*)
   = $directionless_trailing'(true, $rev_<direction>(direction*))
 
-def $directionless_trailing'(_, eps) = true
-def $directionless_trailing'(true, _EMPTY :: direction_t*)
-  = $directionless_trailing'(true, direction_t*)
-def $directionless_trailing'(false, _EMPTY :: direction_t*) = false
-def $directionless_trailing'(_, direction_h :: direction_t*)
-  = $directionless_trailing'(false, direction_t*)
-  -- if direction_h =/= _EMPTY
+;; TODO: write the definition of $directionless_trailing'.
+;; returns true if all EMTPY directions appear at the tail of the list, and false otherwise
+;; The flag starts as `true` and stays `true` as long as we keep seeing EMPTY.
+;; The first non-EMPTY direction flips the first parameter to `false`
 
 relation ActionDecl_ok:
   typingContext |- actionDeclaration -| typingContext
