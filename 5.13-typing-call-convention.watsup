@@ -16,13 +16,9 @@ rulegroup Call_convention_arg_ok {
     -- if expression_arg '#' typeIR_arg = argumentIR
     -- Type_eq: typeIR_param ~~ typeIR_arg
 
+  ;; TODO: write the following rule.
   rule Call_convention_arg_ok/out-inout:
     parameterIR '@' argumentIR
-    -- if direction typeIR_param _ = parameterIR
-    -- if direction = OUT \/ direction = INOUT
-    -- if expression_arg '#' typeIR_arg = argumentIR
-    -- Type_eq: typeIR_param ~~ typeIR_arg
-    -- if $expression_is_lvalue(expression_arg)
 
 }
 
