@@ -54,6 +54,7 @@ rule ParserTransition_ok/expression:
   -- if (nameIR_case = $id(name_case))*
   -- if (b_contains = nameIR_case <- nameIR_state*)*
   -- if $forall_(b_contains*)
+
 ;;
 ;; Parser state
 ;;
