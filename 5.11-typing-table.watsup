@@ -136,16 +136,16 @@ rulegroup TableEntry_ok {
     -- ArgumentList_ok: BLOCK TC |- argumentList : argumentIR_entry*
     ---- ;; check call convention for entry
     -- Call_convention_ok: parameterIR_action* '@' argumentIR_entry*
-    ---- ;; check alignment with action
-    -- if (parameterIR_data*, parameterIR_control*)
-        = $split_dataplane_parameters(parameterIR_action*)
-    ---- ;; arguments must be syntactically equivalent to
-    ---- ;; data-plane arguments specified in the actions list property
-    ---- ;; TODO: is slicing argumentIR_action necessary?
-    -- if argumentIR_action_data* = argumentIR_action*[0 : |parameterIR_data*|]
-    -- if argumentIR_entry_data*
-        = argumentIR_entry*[0 : |parameterIR_data*|]
-    -- if (argumentIR_action_data = argumentIR_entry_data)*
+    ---- ;; EXERCISE: alignment check omitted
+    ;; ---- ;; check alignment with action
+    ;; -- if (parameterIR_data*, parameterIR_control*)
+    ;;     = $split_dataplane_parameters(parameterIR_action*)
+    ;; ---- ;; arguments must be syntactically equivalent to
+    ;; ---- ;; data-plane arguments specified in the actions list property
+    ;; -- if argumentIR_action_data* = argumentIR_action*[0 : |parameterIR_data*|]
+    ;; -- if argumentIR_entry_data*
+    ;;     = argumentIR_entry*[0 : |parameterIR_data*|]
+    ;; -- if (argumentIR_action_data = argumentIR_entry_data)*
 
 }
 
