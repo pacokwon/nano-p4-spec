@@ -1,14 +1,3 @@
-syntax id = text
-syntax callableId = text
-syntax nameIR = text
-
-dec $id(name) : text
-def $id(name) = $print_<name>(name)
-
-syntax scope = GLOBAL | BLOCK | LOCAL
-
-syntax typeId = id
-
 syntax typeIR
 
 ;;
