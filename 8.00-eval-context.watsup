@@ -39,14 +39,14 @@ syntax evalContext =
 
 var EC : evalContext
 
-dec $make_evalContext(typingContext, instContext) : evalContext
+dec $make_evalContext(typingContext, loadContext) : evalContext
 
-def $make_evalContext(TC, IC) = EC
-  -- if parserDeclarationIR = IC.PARSER
-  -- if controlDeclarationIR = IC.CONTROL
+def $make_evalContext(TC, LC) = EC
+  -- if parserDeclarationIR = LC.PARSER
+  -- if controlDeclarationIR = LC.CONTROL
   -- if globalEvalLayer
       = { TYPE TC.GLOBAL.TYPE,
-          CALLABLE IC.CALLABLE,
+          CALLABLE LC.CALLABLE,
           FRAME $empty_frame,
           PARSER parserDeclarationIR,
           CONTROL controlDeclarationIR }

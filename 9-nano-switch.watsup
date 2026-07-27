@@ -22,8 +22,8 @@ relation NanoSwitch_init:
 rule NanoSwitch_init:
   |- program : EC
   -- Program_ok: |- program -| TC
-  -- Program_inst: TC |- program -| IC
-  -- if EC = $make_evalContext(TC, IC)
+  -- Program_load: TC |- program -| LC
+  -- if EC = $make_evalContext(TC, LC)
 
 ;;
 ;; Initialize per-packet global variables

@@ -1,0 +1,98 @@
+;;
+;; Declaration loading
+;;
+
+relation Decl_load:
+  loadContext |- declaration -| loadContext
+  hint(input %0 %1)
+
+relation Decls_load:
+  loadContext |- declaration* -| loadContext
+  hint(input %0 %1)
+
+rule Decl_load/instantiation:
+  LC_0 |- (`TID typeId_target) `( argumentList ) name `; -| LC_1
+  -- if argument* = $flatten_argumentList(argumentList)
+  ---- ;; find parser declaration
+  -- if (`TID callableId_parser) `( _ ) = argument*[0]
+  -- if parserDeclarationIR
+      = $find_callableDef_l(LC_0, callableId_parser)
+  ---- ;; find control declaration
+  -- if (`TID callableId_control) `( _ ) = argument*[1]
+  -- if controlDeclarationIR
+      = $find_callableDef_l(LC_0, callableId_control)
+  -- if LC_1
+      = LC_0[ .PARSER = parserDeclarationIR ][ .CONTROL = controlDeclarationIR ]
+
+rule Decl_load/actionDeclaration:
+  LC_0 |- actionDeclaration -| LC_1
+  -- if ACTION name_action `( _ ) blockStatement = actionDeclaration
+  -- if callableId = $id(name_action)
+  ---- ;; find action type
+  -- if ACTION parameterIR* = $find_callableTypeDef_l(LC_0, callableId)
+  -- if actionDeclarationIR
+      = ACTION callableId `( parameterIR* ) blockStatement
+  -- if LC_1 = $add_callableDef_l(LC_0, callableId, actionDeclarationIR)
+
+rule Decl_load/matchKindDeclaration:
+  LC |- MATCH_KIND `{ nameList } -| LC
+
+rule Decl_load/externDeclaration:
+  LC |- externDeclaration -| LC
+
+rule Decl_load/parserDeclaration:
+  LC_0 |- parserDeclaration -| LC_1
+  -- if PARSER name
+    `( parameterList )
+    `{ parserLocalDeclarationList parserStateList } = parserDeclaration
+  -- if callableId = $id(name)
+  ---- ;; find parser type
+  -- if PARSER parameterIR* = $find_callableTypeDef_l(LC_0, callableId)
+  -- if parserDeclarationIR
+      = PARSER callableId
+          `( parameterIR* )
+          `{ parserLocalDeclarationList parserStateList }
+  -- if LC_1 = $add_callableDef_l(LC_0, callableId, parserDeclarationIR)
+
+rule Decl_load/controlDeclaration:
+  LC_0 |- controlDeclaration -| LC_1
+  -- if CONTROL name
+    `( parameterList )
+    `{ controlLocalDeclarationList APPLY controlBody } = controlDeclaration
+  -- if callableId = $id(name)
+  ---- ;; find control type
+  -- if CONTROL parameterIR* = $find_callableTypeDef_l(LC_0, callableId)
+  -- if controlDeclarationIR
+      = CONTROL callableId
+          `( parameterIR* )
+          `{ controlLocalDeclarationList APPLY controlBody }
+  -- if LC_1 = $add_callableDef_l(LC_0, callableId, controlDeclarationIR)
+
+rule Decl_load/typeDeclaration:
+  LC |- typeDeclaration -| LC
+
+rulegroup Decls_load {
+
+  rule Decls_load/nil:
+    LC_0 |- eps -| LC_0
+
+  rule Decls_load/cons:
+    LC_0 |- declaration_h :: declaration_t* -| LC_2
+    -- Decl_load: LC_0 |- declaration_h -| LC_1
+    -- Decls_load: LC_1 |- declaration_t* -| LC_2
+
+}
+
+;;
+;; Program loading
+;;
+
+relation Program_load:
+  typingContext |- program -| loadContext
+  hint(input %0 %1)
+
+rule Program_load:
+  TC |- program -| LC'
+  -- if declaration* = $flatten_program(program)
+  -- if LC = $make_loadContext(TC)
+  -- Decls_load: LC |- declaration* -| LC'
