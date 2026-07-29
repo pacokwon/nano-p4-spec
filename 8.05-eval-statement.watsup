@@ -42,23 +42,15 @@ rule Statement_eval/blockStatement:
       EC_1 |- blockStatement -| EC_2
   -- if EC_3 = $exit_e(EC_2)
 
-rulegroup Statement_eval/conditionalStatement {
-
-  rule Statement_eval/then:
-    scope EC_0 |- IF `( expression `) blockStatement_then ELSE blockStatement_else -| EC_1
-    -- Expr_eval:
-        scope EC_0 |- expression : (_B true)
-    -- Block_eval:
-        EC_0 |- blockStatement_then -| EC_1
-
-  rule Statement_eval/else:
-    scope EC_0 |- IF `( expression `) blockStatement_then ELSE blockStatement_else -| EC_1
-    -- Expr_eval:
-        scope EC_0 |- expression : (_B false)
-    -- Block_eval:
-        EC_0 |- blockStatement_else -| EC_1
-
-}
+;; TODO: complete the following missing rules.
+;;
+;; rulegroup Statement_eval/conditionalStatement {
+;;
+;;   rule Statement_eval/then:
+;;
+;;   rule Statement_eval/else:
+;;
+;; }
 
 rulegroup Statements_eval {
 
