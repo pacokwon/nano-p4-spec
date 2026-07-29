@@ -117,14 +117,6 @@ rulegroup ParserState_trans {
     -- ParserState_eval:
         EC_0 |- parserState_found : REJECT -| EC_1
 
-  rule ParserState_trans/state:
-    EC_0 parserState* |- nameIR : transitionResult -| EC_2
-    -- if parserState_found = $find_parserState(parserState*, nameIR)
-    -- ParserState_eval:
-        EC_0 |- parserState_found : (STATE nameIR_next) -| EC_1
-    -- ParserState_trans:
-        EC_1 parserState* |- nameIR_next : transitionResult -| EC_2
-
 }
 
 ;;
