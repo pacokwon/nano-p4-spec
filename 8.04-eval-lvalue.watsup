@@ -26,33 +26,14 @@ rule Lvalue_write/referenceExpression:
   -- if nameIR = $id(referenceExpression)
   -- if EC_1 = $update_var_e(scope, EC_0, nameIR, value)
 
-rulegroup Lvalue_write/memberAccess {
-
-  rule Lvalue_write/struct:
-    scope EC_0 |- (lvalue_base '.' member) := value -| EC_1
-    -- Lvalue_eval:
-        scope EC_0 |- lvalue_base : value_base
-    -- if STRUCT typeId `{ fieldValue* `} = value_base
-    -- if nameIR = $id(member)
-    -- if fieldValue_update* = $update_fieldValue(fieldValue*, nameIR, value)
-    -- if structValue_base_update
-        = STRUCT typeId `{ fieldValue_update* `}
-    -- Lvalue_write:
-        scope EC_0 |- lvalue_base := structValue_base_update -| EC_1
-
-  rule Lvalue_write/header:
-    scope EC_0 |- (lvalue_base '.' member) := value -| EC_1
-    -- Lvalue_eval:
-        scope EC_0 |- lvalue_base : value_base
-    -- if HEADER typeId `{ fieldValue* `} = value_base
-    -- if nameIR = $id(member)
-    -- if fieldValue_update* = $update_fieldValue(fieldValue*, nameIR, value)
-    -- if headerValue_base_update
-        = HEADER typeId `{ fieldValue_update* `}
-    -- Lvalue_write:
-        scope EC_0 |- lvalue_base := headerValue_base_update -| EC_1
-
-}
+;; TODO: write rules Lvalue_write/struct and Lvalue_write/header.
+;; rulegroup Lvalue_write/memberAccess {
+;;
+;;   rule Lvalue_write/struct:
+;;
+;;   rule Lvalue_write/header:
+;;
+;; }
 
 rule Lvalue_write/parenthesized:
   scope EC_0 |- (`( lvalue `)) := value -| EC_1
