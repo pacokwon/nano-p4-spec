@@ -25,9 +25,9 @@ rule Expr_eval/unaryExpression:
 rule Expr_eval/binaryExpression:
   scope EC |- expression_l binop expression_r : value
   -- Expr_eval:
-      scope EC |- expression_l : value_l
+      GLOBAL EC |- expression_l : value_l
   -- Expr_eval:
-      scope EC |- expression_r : value_r
+      GLOBAL EC |- expression_r : value_r
   -- if value = $bin_op(binop, value_l, value_r)
 
 rulegroup Expr_eval/memberAccessExpression {
