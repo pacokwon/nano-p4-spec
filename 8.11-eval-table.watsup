@@ -83,7 +83,7 @@ rulegroup TableMatch_eval {
 rule Table_eval/no-entries:
   EC |- tableKeyProperty tableActionsProperty -| EC
 
-rule Table_eval/no-match:
+rule Table_eval/entries:
   EC_0 |- (KEY `= tableKey)
         (ACTIONS `= `{ tableActionList })
         (CONST ENTRIES `= `{ tableEntryList }) -| EC_1
