@@ -78,14 +78,7 @@ rulegroup Copy_out_arg {
     ~> EC_caller
     -- if direction = IN \/ direction = _EMPTY
 
-  rule Copy_out_arg/out-inout:
-    scope_caller EC_caller_0 (direction typeIR nameIR)
-      '@' scope_callee EC_callee lvalue
-    ~> EC_caller_1
-    -- if direction = OUT \/ direction = INOUT
-    -- if value = $find_var_e(scope_callee, EC_callee, nameIR)
-    -- Lvalue_write:
-        scope_caller EC_caller_0 |- lvalue := value -| EC_caller_1
+  ;; Copy_out_arg/out-inout is left as the exercise for this section.
 
 }
 
