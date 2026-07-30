@@ -26,17 +26,7 @@ relation TableMatch_eval:
 dec $match_entry_value(value, (tableActionReference, value)*)
   : tableActionReference?
 
-def $match_entry_value(value, eps) = eps
-def $match_entry_value(
-    value,
-    (tableActionReference_h, value_h) :: (tableActionReference_t, value_t)*)
-  = tableActionReference_h
-  -- if $bin_eq(value, value_h)
-def $match_entry_value(
-    value,
-    (tableActionReference_h, value_h) :: (tableActionReference_t, value_t)*)
-  = $match_entry_value(value, (tableActionReference_t, value_t)*)
-  -- if ~$bin_eq(value, value_h)
+;; $match_entry_value definitions are left as the exercise for this section.
 
 rulegroup TableMatch_eval {
 
