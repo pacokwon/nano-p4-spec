@@ -21,6 +21,8 @@ relation Type_eq:
 relation Expr_ok:
   scope typingContext |- expression : typeIR
   hint(input %0 %1 %2)
+  hint(prose_in "typing" %2#", under context" %1 "at" %0)
+  hint(prose_out %3)
 
 ;;
 ;; Argument typing
@@ -53,14 +55,20 @@ relation Call_convention_ok:
 relation Statement_ok:
   scope typingContext |- statement -| typingContext
   hint(input %0 %1 %2)
+  hint(prose_in "typing" %2#", under context" %1 "at" %0)
+  hint(prose_out "context" %3)
 
 relation Statements_ok:
   typingContext |- statement* -| typingContext
   hint(input %0 %1)
+  hint(prose_in "typing" %1#", under context" %0)
+  hint(prose_out "context" %2)
 
 relation Block_ok:
   typingContext |- blockStatement
   hint(input %0 %1)
+  hint(prose_true %1 "is well-typed under context" %0)
+  hint(prose_false %1 "is not well-typed under context" %0)
 
 ;;
 ;; Parser declaration
