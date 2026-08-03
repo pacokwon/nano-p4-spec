@@ -37,16 +37,16 @@ rule ParserLocalDeclList_ok:
 ;;
 
 rule ParserTransition_ok/name:
-  TC nameIR_state* |- TRANSITION (name `;)
+  TC nameIR_state* |- TRANSITION (name ';')
   -- if nameIR = $id(name)
   -- if nameIR <- nameIR_state*
 
 rule ParserTransition_ok/expression:
   TC_0 nameIR_state* |- TRANSITION selectExpression
-  -- if SELECT `( expression ) `{ selectCaseList } = selectExpression
+  -- if SELECT `( expression `) `{ selectCaseList `} = selectExpression
   -- Expr_ok: LOCAL TC_0 |- expression : typeIR
   -- if selectCase* = $flatten_selectCaseList(selectCaseList)
-  -- if (expression_case `: name_case `; = selectCase)*
+  -- if (expression_case ':' name_case ';' = selectCase)*
   ---- ;; expression
   -- (Expr_ok: LOCAL TC_0 |- expression_case : typeIR_case)*
   -- (Type_eq: typeIR ~~ typeIR_case)*
@@ -64,7 +64,7 @@ relation ParserState_ok:
   hint(input %0 %1 %2)
 
 rule ParserState_ok:
-  TC_0 nameIR_state* |- STATE name `{ statementList transitionStatement }
+  TC_0 nameIR_state* |- STATE name `{ statementList transitionStatement `}
   -- if TC_1 = $enter_t(TC_0)
   -- if statement* = $flatten_statementList(statementList)
   -- Statements_ok: TC_1 |- statement* -| TC_2
@@ -74,7 +74,7 @@ rule ParserState_ok:
 rule ParserStateList_ok:
   TC |- parserStateList
   -- if parserState* = $flatten_parserStateList(parserStateList)
-  -- if (STATE name `{ _ _ } = parserState)*
+  -- if (STATE name `{ _ _ `} = parserState)*
   -- if (nameIR_state = $id(name))*
   ---- ;; A parser may not define two states with the same name
   -- if $distinct_<nameIR>(nameIR_state*)

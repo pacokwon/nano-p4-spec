@@ -16,10 +16,10 @@ rule ParameterType_eq:
 ;;
 
 rule Type_ok/signed:
-  TC |- INT `< n > ~> INT `< n >
+  TC |- INT `< n `> ~> INT `< n `>
 
 rule Type_ok/unsigned:
-  TC |- BIT `< n > ~> BIT `< n >
+  TC |- BIT `< n `> ~> BIT `< n `>
 
 rule Type_ok/boolType:
   TC |- BOOL ~> BOOL
@@ -28,7 +28,7 @@ rule Type_ok/matchKindType:
   TC |- MATCH_KIND ~> MATCH_KIND
 
 rule Type_ok/typeName:
-  TC |- (`TID typeId) ~> typeIR
+  TC |- (_TID typeId) ~> typeIR
   -- if typeDefIR = $find_typeDef_t(TC, typeId)
   -- if typeIR = $typeIR_of_typeDefIR(typeDefIR)
 
@@ -42,12 +42,12 @@ rule Type_eq/baseTypeIR:
 rulegroup Type_eq/dataTypeIR {
 
   rule Type_eq/structTypeIR:
-    (STRUCT typeId `{ _ })
-    ~~ (STRUCT typeId `{ _ })
+    (STRUCT typeId `{ _ `})
+    ~~ (STRUCT typeId `{ _ `})
 
   rule Type_eq/headerTypeIR:
-    (HEADER typeId `{ _ })
-    ~~ (HEADER typeId `{ _ })
+    (HEADER typeId `{ _ `})
+    ~~ (HEADER typeId `{ _ `})
 
 }
 
@@ -57,15 +57,15 @@ rulegroup Type_eq/objectTypeIR {
     (EXTERN typeId _) ~~ (EXTERN typeId _)
 
   rule Type_eq/parserObjectTypeIR:
-    (PARSER _ `( parameterIR_a* )) ~~ (PARSER _ `( parameterIR_b* ))
+    (PARSER _ `( parameterIR_a* `)) ~~ (PARSER _ `( parameterIR_b* `))
     -- (ParameterType_eq: parameterIR_a ~~ parameterIR_b)*
 
   rule Type_eq/controlObjectTypeIR:
-    (CONTROL _ `( parameterIR_a* )) ~~ (CONTROL _ `( parameterIR_b* ))
+    (CONTROL _ `( parameterIR_a* `)) ~~ (CONTROL _ `( parameterIR_b* `))
     -- (ParameterType_eq: parameterIR_a ~~ parameterIR_b)*
 
   rule Type_eq/packageObjectTypeIR:
-    (PACKAGE _ `( parameterIR_a* )) ~~ (PACKAGE _ `( parameterIR_b* ))
+    (PACKAGE _ `( parameterIR_a* `)) ~~ (PACKAGE _ `( parameterIR_b* `))
     -- (ParameterType_eq: parameterIR_a ~~ parameterIR_b)*
 
   rule Type_eq/tableObjectTypeIR:

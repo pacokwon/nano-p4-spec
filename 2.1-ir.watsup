@@ -5,8 +5,8 @@ syntax typeIR
 ;;
 
 syntax integerTypeIR =
-  | INT `< nat >
-  | BIT `< nat >
+  | INT `< nat `>
+  | BIT `< nat `>
 
 syntax baseTypeIR =
   | integerTypeIR
@@ -17,7 +17,7 @@ syntax baseTypeIR =
 ;; Arguments
 ;;
 
-syntax argumentIR = expression `# typeIR
+syntax argumentIR = expression '#' typeIR
 
 ;;
 ;; Parameters
@@ -29,10 +29,10 @@ syntax parameterIR = direction typeIR nameIR
 ;; User defined data types
 ;;
 
-syntax fieldTypeIR = typeIR id `;
+syntax fieldTypeIR = typeIR id ';'
 
-syntax structTypeIR = STRUCT typeId `{ fieldTypeIR* }
-syntax headerTypeIR = HEADER typeId `{ fieldTypeIR* }
+syntax structTypeIR = STRUCT typeId `{ fieldTypeIR* `}
+syntax headerTypeIR = HEADER typeId `{ fieldTypeIR* `}
 
 syntax dataTypeIR =
   | structTypeIR
@@ -43,7 +43,7 @@ syntax dataTypeIR =
 ;;
 
 syntax externMethodTypeDefIR =
-  VOID callableId `( parameterIR* )
+  VOID callableId `( parameterIR* `)
 
 syntax externMethodTypeDefEnv =
   map<callableId, externMethodTypeDefIR>
@@ -52,13 +52,13 @@ syntax externObjectTypeIR =
   EXTERN typeId externMethodTypeDefEnv
 
 syntax parserObjectTypeIR =
-  PARSER typeId `( parameterIR* )
+  PARSER typeId `( parameterIR* `)
 
 syntax controlObjectTypeIR =
-  CONTROL typeId `( parameterIR* )
+  CONTROL typeId `( parameterIR* `)
 
 syntax packageObjectTypeIR =
-  PACKAGE typeId `( parameterIR* )
+  PACKAGE typeId `( parameterIR* `)
 
 syntax tableObjectTypeIR = TABLE typeId
 

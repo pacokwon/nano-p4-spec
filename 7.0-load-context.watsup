@@ -4,17 +4,17 @@
 
 syntax actionDeclarationIR =
   ACTION nameIR
-    `( parameterIR* ) blockStatement
+    `( parameterIR* `) blockStatement
 
 syntax parserDeclarationIR =
   PARSER nameIR
-    `( parameterIR* )
-    `{ parserLocalDeclarationList parserStateList }
+    `( parameterIR* `)
+    `{ parserLocalDeclarationList parserStateList `}
 
 syntax controlDeclarationIR =
   CONTROL nameIR
-    `( parameterIR* )
-    `{ controlLocalDeclarationList APPLY controlBody }
+    `( parameterIR* `)
+    `{ controlLocalDeclarationList APPLY controlBody `}
 
 syntax callableDef =
   | actionDeclarationIR

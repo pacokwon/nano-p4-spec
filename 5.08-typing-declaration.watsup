@@ -9,12 +9,12 @@ def $directionless_trailing(direction*)
   = $directionless_trailing'(true, $rev_<direction>(direction*))
 
 def $directionless_trailing'(_, eps) = true
-def $directionless_trailing'(true, `EMPTY :: direction_t*)
+def $directionless_trailing'(true, _EMPTY :: direction_t*)
   = $directionless_trailing'(true, direction_t*)
-def $directionless_trailing'(false, `EMPTY :: direction_t*) = false
+def $directionless_trailing'(false, _EMPTY :: direction_t*) = false
 def $directionless_trailing'(_, direction_h :: direction_t*)
   = $directionless_trailing'(false, direction_t*)
-  -- if direction_h =/= `EMPTY
+  -- if direction_h =/= _EMPTY
 
 relation ActionDecl_ok:
   typingContext |- actionDeclaration -| typingContext
@@ -22,7 +22,7 @@ relation ActionDecl_ok:
 
 rule ActionDecl_ok:
   TC_0 |- actionDeclaration -| TC_1
-  -- if ACTION name_action `( parameterList ) blockStatement = actionDeclaration
+  -- if ACTION name_action `( parameterList `) blockStatement = actionDeclaration
   -- if parameter* = $flatten_parameterList(parameterList)
   ---- ;; For actions, all directionless parameters must be
   ---- ;; at the end of the parameter list
@@ -46,13 +46,13 @@ relation ExternDecl_ok:
 
 rule ExternDecl_ok:
   TC_0 |- EXTERN name
-          `{ externMethodPrototypeList } -| TC_1
+          `{ externMethodPrototypeList `} -| TC_1
   -- if externMethodPrototype*
       = $flatten_externMethodPrototypeList(externMethodPrototypeList)
   -- (ExternMethod_ok : TC_0 |- externMethodPrototype : externMethodTypeDefIR)*
-  -- if (VOID callableId_method `( _ ) = externMethodTypeDefIR)*
+  -- if (VOID callableId_method `( _ `) = externMethodTypeDefIR)*
   -- if $distinct_<callableId>(callableId_method*)
-  -- if externMethodTypeDefEnv = `{ (callableId_method `: externMethodTypeDefIR)* }
+  -- if externMethodTypeDefEnv = `{ (callableId_method ':' externMethodTypeDefIR)* `}
   -- if typeId = $id(name)
   -- if typeDefIR = EXTERN typeId externMethodTypeDefEnv
   -- if TC_1 = $add_typeDef_t(TC_0, typeId, typeDefIR)
@@ -69,53 +69,53 @@ rulegroup TypeDecl_ok {
 
   rule TypeDecl_ok/structTypeDeclaration:
     TC_0 |- structTypeDeclaration -| TC_1
-    -- if STRUCT name_struct `{ typeFieldList } = structTypeDeclaration
+    -- if STRUCT name_struct `{ typeFieldList `} = structTypeDeclaration
     -- if typeField* = $flatten_typeFieldList(typeFieldList)
-    -- if (type name `; = typeField)*
+    -- if (type name ';' = typeField)*
     -- (Type_ok: TC_0 |- type ~> typeIR)*
     -- if (id_field = $id(name))*
     -- if $distinct_<id>(id_field*)
     -- if typeId = $id(name_struct)
-    -- if fieldTypeIR* = (typeIR id_field `;)*
-    -- if typeDefIR = STRUCT typeId `{ fieldTypeIR* }
+    -- if fieldTypeIR* = (typeIR id_field ';')*
+    -- if typeDefIR = STRUCT typeId `{ fieldTypeIR* `}
     -- if TC_1 = $add_typeDef_t(TC_0, typeId, typeDefIR)
 
   rule TypeDecl_ok/headerTypeDeclaration:
     TC_0 |- headerTypeDeclaration -| TC_1
-    -- if HEADER name_header `{ typeFieldList } = headerTypeDeclaration
+    -- if HEADER name_header `{ typeFieldList `} = headerTypeDeclaration
     -- if typeField* = $flatten_typeFieldList(typeFieldList)
-    -- if (type name `; = typeField)*
+    -- if (type name ';' = typeField)*
     -- (Type_ok: TC_0 |- type ~> typeIR)*
     -- if (id_field = $id(name))*
     -- if $distinct_<id>(id_field*)
     -- if typeId = $id(name_header)
-    -- if fieldTypeIR* = (typeIR id_field `;)*
-    -- if typeDefIR = HEADER typeId `{ fieldTypeIR* }
+    -- if fieldTypeIR* = (typeIR id_field ';')*
+    -- if typeDefIR = HEADER typeId `{ fieldTypeIR* `}
     -- if TC_1 = $add_typeDef_t(TC_0, typeId, typeDefIR)
 
   rule TypeDecl_ok/parserTypeDeclaration:
-    TC_0 |- PARSER name `( parameterList ) `; -| TC_1
+    TC_0 |- PARSER name `( parameterList `) ';' -| TC_1
     -- ParameterList_ok: BLOCK TC_0 |- parameterList : parameterIR* -| TC_body
     -- if $no_object_params(parameterIR*)
     -- if typeId = $id(name)
-    -- if typeDefIR = PARSER typeId `( parameterIR* )
+    -- if typeDefIR = PARSER typeId `( parameterIR* `)
     -- if TC_1 = $add_typeDef_t(TC_0, typeId, typeDefIR)
 
   rule TypeDecl_ok/controlTypeDeclaration:
-    TC_0 |- CONTROL name `( parameterList ) `; -| TC_1
+    TC_0 |- CONTROL name `( parameterList `) ';' -| TC_1
     -- if parameter* = $flatten_parameterList(parameterList)
     -- ParameterList_ok: BLOCK TC_0 |- parameterList : parameterIR* -| TC_body
     -- if $no_object_params(parameterIR*)
     -- if typeId = $id(name)
-    -- if typeDefIR = CONTROL typeId `( parameterIR* )
+    -- if typeDefIR = CONTROL typeId `( parameterIR* `)
     -- if TC_1 = $add_typeDef_t(TC_0, typeId, typeDefIR)
 
   rule TypeDecl_ok/packageTypeDeclaration:
-    TC_0 |- PACKAGE name `( parameterList ) `; -| TC_1
+    TC_0 |- PACKAGE name `( parameterList `) ';' -| TC_1
     -- if parameter* = $flatten_parameterList(parameterList)
     -- ParameterList_ok: BLOCK TC_0 |- parameterList : parameterIR* -| TC_body
     -- if typeId = $id(name)
-    -- if typeDefIR = PACKAGE typeId `( parameterIR* )
+    -- if typeDefIR = PACKAGE typeId `( parameterIR* `)
     -- if TC_1 = $add_typeDef_t(TC_0, typeId, typeDefIR)
 
 }
@@ -123,15 +123,15 @@ rulegroup TypeDecl_ok {
 ;; Declaration
 
 rule Decl_ok/instantiation:
-  TC_0 |- (`TID typeId_target) `( argumentList ) name `; -| TC_0
+  TC_0 |- (_TID typeId_target) `( argumentList `) name ';' -| TC_0
   ---- ;; package is the only instantiable type from top-level
-  -- if PACKAGE typeId `( parameterIR* ) = $find_typeDef_t(TC_0, typeId_target)
+  -- if PACKAGE typeId `( parameterIR* `) = $find_typeDef_t(TC_0, typeId_target)
   -- ArgumentList_ok: GLOBAL TC_0 |- argumentList : argumentIR*
-  -- Call_convention_ok: parameterIR* `@ argumentIR*
+  -- Call_convention_ok: parameterIR* '@' argumentIR*
   -- if typeId_object = $id(name)
   -- if typeId_object = "main"
-  -- if packageObjectTypeIR = PACKAGE typeId_object `( parameterIR* )
-  -- if varTypeIR = `EMPTY packageObjectTypeIR
+  -- if packageObjectTypeIR = PACKAGE typeId_object `( parameterIR* `)
+  -- if varTypeIR = _EMPTY packageObjectTypeIR
   -- if TC_1 = $add_var_t(GLOBAL, TC_0, typeId_object, varTypeIR)
 
 rule Decl_ok/actionDeclaration:
@@ -139,13 +139,13 @@ rule Decl_ok/actionDeclaration:
   -- ActionDecl_ok: TC_0 |- actionDeclaration -| TC_1
 
 rule Decl_ok/matchKindDeclaration:
-  TC_0 |- MATCH_KIND `{ nameList } -| TC_1
+  TC_0 |- MATCH_KIND `{ nameList `} -| TC_1
   -- if name* = $flatten_nameList(nameList)
   -- if (id = $id(name))*
   ---- ;; check name collision
   -- if $distinct_<id>(id*)
   ---- ;; update context
-  -- if varTypeIR* = $repeat_<varTypeIR>(`EMPTY MATCH_KIND, |id*|)
+  -- if varTypeIR* = $repeat_<varTypeIR>(_EMPTY MATCH_KIND, |id*|)
   -- if TC_1 = $add_vars_t(GLOBAL, TC_0, id*, varTypeIR*)
 
 rule Decl_ok/externDeclaration:
@@ -155,8 +155,8 @@ rule Decl_ok/externDeclaration:
 rule Decl_ok/parserDeclaration:
   TC_0 |- parserDeclaration -| TC_2
   -- if PARSER name
-    `( parameterList )
-    `{ parserLocalDeclarationList parserStateList } = parserDeclaration
+    `( parameterList `)
+    `{ parserLocalDeclarationList parserStateList `} = parserDeclaration
   -- ParameterList_ok: BLOCK TC_0 |- parameterList : parameterIR* -| TC_body
   -- ParserLocalDeclList_ok: TC_body |- parserLocalDeclarationList -| TC_1
   -- ParserStateList_ok: TC_1 |- parserStateList
@@ -167,8 +167,8 @@ rule Decl_ok/parserDeclaration:
 rule Decl_ok/controlDeclaration:
   TC_0 |- controlDeclaration -| TC_2
   -- if CONTROL name
-    `( parameterList )
-    `{ controlLocalDeclarationList APPLY controlBody } = controlDeclaration
+    `( parameterList `)
+    `{ controlLocalDeclarationList APPLY controlBody `} = controlDeclaration
   -- ParameterList_ok: BLOCK TC_0 |- parameterList : parameterIR* -| TC_body
   -- ControlLocalDeclList_ok: TC_body |- controlLocalDeclarationList -| TC_1
   -- Block_ok: TC_1 |- controlBody

@@ -1,10 +1,10 @@
 rulegroup Expr_eval/booleanLiteral {
 
   rule Expr_eval/true:
-    scope EC |- TRUE : `B true
+    scope EC |- TRUE : _B true
 
   rule Expr_eval/false:
-    scope EC |- FALSE : `B false
+    scope EC |- FALSE : _B false
 
 }
 
@@ -33,21 +33,21 @@ rule Expr_eval/binaryExpression:
 rulegroup Expr_eval/memberAccessExpression {
 
   rule Expr_eval/struct:
-    scope EC |- memberAccessBase `. member : value_member
+    scope EC |- memberAccessBase '.' member : value_member
     -- Expr_eval:
         scope EC |- memberAccessBase : value_base
-    -- if STRUCT typeId `{ fieldValue* } = value_base
-    -- if (value_field nameIR_field `; = fieldValue)*
+    -- if STRUCT typeId `{ fieldValue* `} = value_base
+    -- if (value_field nameIR_field ';' = fieldValue)*
     -- if nameIR = $id(member)
     -- if value_member
         = $assoc_<nameIR, value>(nameIR, (nameIR_field, value_field)*)
 
   rule Expr_eval/header:
-    scope EC |- memberAccessBase `. member : value_member
+    scope EC |- memberAccessBase '.' member : value_member
     -- Expr_eval:
         scope EC |- memberAccessBase : value_base
-    -- if HEADER typeId `{ fieldValue* } = value_base
-    -- if (value_field nameIR_field `; = fieldValue)*
+    -- if HEADER typeId `{ fieldValue* `} = value_base
+    -- if (value_field nameIR_field ';' = fieldValue)*
     -- if nameIR = $id(member)
     -- if value_member
         = $assoc_<nameIR, value>(nameIR, (nameIR_field, value_field)*)
@@ -59,6 +59,6 @@ rulegroup Expr_eval/memberAccessExpression {
 ;;       the behavior is therefore a no-op.
 
 rule Expr_eval/parenthesizedExpression:
-  scope EC |- `( expression ) : value
+  scope EC |- `( expression `) : value
   -- Expr_eval:
       scope EC |- expression : value

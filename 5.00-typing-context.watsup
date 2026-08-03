@@ -84,9 +84,9 @@ def $empty_typingContext = TC
 ;; Table context
 ;;
 
-syntax matchKey = typeIR `: nameIR
+syntax matchKey = typeIR ':' nameIR
 
-syntax matchAction = callableId `( parameterIR* `@ argumentIR* )
+syntax matchAction = callableId `( parameterIR* '@' argumentIR* `)
 
 syntax tableContext =
   { KEY matchKey,

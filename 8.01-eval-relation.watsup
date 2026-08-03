@@ -30,13 +30,13 @@ relation Lvalue_write:
 ;;
 
 syntax actionCallee =
-  ACTION callableId `( parameterIR* ) blockStatement
+  ACTION callableId `( parameterIR* `) blockStatement
 
 syntax externMethodCallee =
-  EXTERN_METHOD lvalue `. callableId `( parameterIR* )
+  EXTERN_METHOD lvalue '.' callableId `( parameterIR* `)
 
 syntax tableApplyMethodCallee =
-  TABLE nameIR `. APPLY `{ tableProperties }
+  TABLE nameIR '.' APPLY `{ tableProperties `}
 
 syntax callee =
   | actionCallee
@@ -56,11 +56,11 @@ relation Callee_eval:
   hint(input %0 %1 %2)
 
 relation Call_eval:
-  scope evalContext |- callee `( argument* ) -| evalContext
+  scope evalContext |- callee `( argument* `) -| evalContext
   hint(input %0 %1 %2 %3)
 
 extern relation ExternMethodCall_eval:
-  evalContext |- value `. callableId `( nameIR* ) : value -| evalContext
+  evalContext |- value '.' callableId `( nameIR* `) : value -| evalContext
   hint(input %0 %1 %2 %3)
 
 ;;
@@ -69,13 +69,13 @@ extern relation ExternMethodCall_eval:
 
 relation Copy_in:
   scope evalContext parameterIR*
-    `@ scope evalContext argument*
+    '@' scope evalContext argument*
   ~> evalContext lvalue?*
   hint(input %0 %1 %2 %3 %4 %5)
 
 relation Copy_out:
   scope evalContext parameterIR*
-    `@ scope evalContext lvalue?*
+    '@' scope evalContext lvalue?*
   ~> evalContext
   hint(input %0 %1 %2 %3 %4 %5)
 

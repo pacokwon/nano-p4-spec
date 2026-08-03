@@ -43,7 +43,7 @@ relation Lvalue_ok:
 ;;
 
 relation Call_convention_ok:
-  parameterIR* `@ argumentIR*
+  parameterIR* '@' argumentIR*
   hint(input %0 %1)
 
 ;;

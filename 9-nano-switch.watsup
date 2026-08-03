@@ -51,9 +51,9 @@ syntax forwardingDecision = FORWARD | DROP
 
 dec $nanoswitch_forwarding(evalContext) : forwardingDecision
 def $nanoswitch_forwarding(EC) = FORWARD
-  -- if `B true = $find_var_e(GLOBAL, EC, "accept")
+  -- if _B true = $find_var_e(GLOBAL, EC, "accept")
 def $nanoswitch_forwarding(EC) = DROP
-  -- if `B false = $find_var_e(GLOBAL, EC, "accept")
+  -- if _B false = $find_var_e(GLOBAL, EC, "accept")
 
 ;;
 ;; Nanoswitch parse
@@ -65,7 +65,7 @@ relation NanoSwitch_parse:
 
 rule NanoSwitch_parse:
   EC_0 |- parserDeclarationIR : transitionResult -| EC_1
-  -- if argument* = [ `ID "packet_in", `ID "hdr" ]
+  -- if argument* = [ _ID "packet_in", _ID "hdr" ]
   -- Parser_apply:
       EC_0 argument* |- parserDeclarationIR : transitionResult -| EC_1
 
@@ -79,7 +79,7 @@ relation NanoSwitch_filter:
 
 rule NanoSwitch_filter:
   EC_0 |- controlDeclarationIR -| EC_1
-  -- if argument* = [ `ID "hdr", `ID "accept" ]
+  -- if argument* = [ _ID "hdr", _ID "accept" ]
   -- Control_apply:
       EC_0 argument* |- controlDeclarationIR -| EC_1
 

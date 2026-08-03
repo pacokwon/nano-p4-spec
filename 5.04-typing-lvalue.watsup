@@ -11,25 +11,25 @@ rule Lvalue_ok/referenceExpression:
 rulegroup Lvalue_ok/memberAccess {
 
   rule Lvalue_ok/structTypeIR:
-    scope TC |- lvalue_base `. member : typeIR
+    scope TC |- lvalue_base '.' member : typeIR
     -- Lvalue_ok: scope TC |- lvalue_base : typeIR_base
-    -- if STRUCT _ `{ fieldTypeIR* } = typeIR_base
-    -- if (typeIR_field id_field `; = fieldTypeIR)*
+    -- if STRUCT _ `{ fieldTypeIR* `} = typeIR_base
+    -- if (typeIR_field id_field ';' = fieldTypeIR)*
     -- if id_member = $id(member)
     -- if typeIR = $assoc_<id, typeIR>(id_member, (id_field, typeIR_field)*)
 
   rule Lvalue_ok/headerTypeIR:
-    scope TC |- lvalue_base `. member : typeIR
+    scope TC |- lvalue_base '.' member : typeIR
     -- Lvalue_ok: scope TC |- lvalue_base : typeIR_base
-    -- if HEADER _ `{ fieldTypeIR* } = typeIR_base
-    -- if (typeIR_field id_field `; = fieldTypeIR)*
+    -- if HEADER _ `{ fieldTypeIR* `} = typeIR_base
+    -- if (typeIR_field id_field ';' = fieldTypeIR)*
     -- if id_member = $id(member)
     -- if typeIR = $assoc_<id, typeIR>(id_member, (id_field, typeIR_field)*)
 
 }
 
 rule Lvalue_ok/parenthesized:
-  scope TC |- `( lvalue ) : typeIR
+  scope TC |- `( lvalue `) : typeIR
   -- Lvalue_ok: scope TC |- lvalue : typeIR
 
 ;;
@@ -39,7 +39,7 @@ rule Lvalue_ok/parenthesized:
 dec $expression_is_lvalue(expression) : bool
 def $expression_is_lvalue(referenceExpression) = true
 def $expression_is_lvalue(memberAccessExpression) = true
-def $expression_is_lvalue(`( expression )) = $expression_is_lvalue(expression)
+def $expression_is_lvalue(`( expression `)) = $expression_is_lvalue(expression)
 def $expression_is_lvalue(expression) = false
   -- otherwise
 
@@ -49,10 +49,10 @@ def $expression_is_lvalue(expression) = false
 
 dec $expression_of_lvalue(lvalue) : expression
 def $expression_of_lvalue(referenceExpression) = referenceExpression
-def $expression_of_lvalue(lvalue_base `. member)
-  = $expression_of_lvalue(lvalue_base) `. member
-def $expression_of_lvalue(`( lvalue ))
-  = `( $expression_of_lvalue(lvalue) )
+def $expression_of_lvalue(lvalue_base '.' member)
+  = $expression_of_lvalue(lvalue_base) '.' member
+def $expression_of_lvalue(`( lvalue `))
+  = `( $expression_of_lvalue(lvalue) `)
 
 ;;
 ;; Convert expression to lvalue
@@ -60,7 +60,7 @@ def $expression_of_lvalue(`( lvalue ))
 
 dec $lvalue_of_expression(expression) : lvalue
 def $lvalue_of_expression(referenceExpression) = referenceExpression
-def $lvalue_of_expression(memberAccessBase `. member)
-  = $lvalue_of_expression(memberAccessBase) `. member
-def $lvalue_of_expression(`( expression ))
-  = `( $lvalue_of_expression(expression) )
+def $lvalue_of_expression(memberAccessBase '.' member)
+  = $lvalue_of_expression(memberAccessBase) '.' member
+def $lvalue_of_expression(`( expression `))
+  = `( $lvalue_of_expression(expression) `)

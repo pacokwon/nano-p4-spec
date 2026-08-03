@@ -5,7 +5,7 @@ relation Argument_ok:
 rule Argument_ok:
   scope TC |- expression : argumentIR
   -- Expr_ok: scope TC |- expression : typeIR
-  -- if argumentIR = expression `# typeIR
+  -- if argumentIR = expression '#' typeIR
 
 rule ArgumentList_ok:
   scope TC |- argumentList : argumentIR*

@@ -7,7 +7,7 @@ relation TableKey_eval:
   hint(input %0 %1)
 
 rule TableKey_eval:
-  EC |- `{ expression `: name `; } : value
+  EC |- `{ expression ':' name ';' `} : value
   -- Expr_eval:
       LOCAL EC |- expression : value
 
@@ -42,7 +42,7 @@ rulegroup TableMatch_eval {
 
   rule TableMatch_eval/no-match:
     EC value_tableKey |- tableEntry* -| EC
-    -- if (`( expression_entry ) `: tableActionReference_entry `; = tableEntry)*
+    -- if (`( expression_entry `) ':' tableActionReference_entry ';' = tableEntry)*
     -- (Expr_eval: BLOCK EC |- expression_entry : value_entry)*
     -- if eps
         = $match_entry_value(
@@ -52,7 +52,7 @@ rulegroup TableMatch_eval {
 
   rule TableMatch_eval/match-no-argumentList:
     EC_0 value_tableKey |- tableEntry* -| EC_1
-    -- if (`( expression_entry ) `: tableActionReference_entry `; = tableEntry)*
+    -- if (`( expression_entry `) ':' tableActionReference_entry ';' = tableEntry)*
     -- (Expr_eval: BLOCK EC_0 |- expression_entry : value_entry)*
     -- if name
         = $match_entry_value(
@@ -60,19 +60,19 @@ rulegroup TableMatch_eval {
             (tableActionReference_entry, value_entry)*
           )
     -- Statement_eval:
-        BLOCK EC_0 |- name `( `EMPTY ) `; -| EC_1
+        BLOCK EC_0 |- name `( _EMPTY `) ';' -| EC_1
 
   rule TableMatch_eval/match-argumentList:
     EC_0 value_tableKey |- tableEntry* -| EC_1
-    -- if (`( expression_entry ) `: tableActionReference_entry `; = tableEntry)*
+    -- if (`( expression_entry `) ':' tableActionReference_entry ';' = tableEntry)*
     -- (Expr_eval: BLOCK EC_0 |- expression_entry : value_entry)*
-    -- if name `( argumentList )
+    -- if name `( argumentList `)
         = $match_entry_value(
             value_tableKey,
             (tableActionReference_entry, value_entry)*
           )
     -- Statement_eval:
-        BLOCK EC_0 |- name `( argumentList ) `; -| EC_1
+        BLOCK EC_0 |- name `( argumentList `) ';' -| EC_1
 
 }
 
@@ -84,9 +84,9 @@ rule Table_eval/no-entries:
   EC |- tableKeyProperty tableActionsProperty -| EC
 
 rule Table_eval/entries:
-  EC_0 |- (KEY `= tableKey)
-        (ACTIONS `= `{ tableActionList })
-        (CONST ENTRIES `= `{ tableEntryList }) -| EC_1
+  EC_0 |- (KEY '=' tableKey)
+        (ACTIONS '=' `{ tableActionList `})
+        (CONST ENTRIES '=' `{ tableEntryList `}) -| EC_1
   -- TableKey_eval: EC_0 |- tableKey : value_tableKey
   -- if tableEntry* = $flatten_tableEntryList(tableEntryList)
   -- TableMatch_eval: EC_0 value_tableKey |- tableEntry* -| EC_1

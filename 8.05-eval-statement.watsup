@@ -3,7 +3,7 @@
 ;;
 
 rule VarDecl_eval:
-  scope EC_0 |- type name (`= expression) `; -| EC_1
+  scope EC_0 |- type name ('=' expression) ';' -| EC_1
   -- Expr_eval:
       scope EC_0 |- expression : value
   -- if nameIR = $id(name)
@@ -21,19 +21,19 @@ rule Statement_eval/variableDeclaration:
   -- VarDecl_eval: scope EC_0 |- variableDeclaration -| EC_1
 
 rule Statement_eval/assignmentStatement:
-  scope EC_0 |- lvalue `= expression `; -| EC_1
+  scope EC_0 |- lvalue '=' expression ';' -| EC_1
   -- Expr_eval:
       scope EC_0 |- expression : value
   -- Lvalue_write:
       scope EC_0 |- lvalue := value -| EC_1
 
 rule Statement_eval/callStatement:
-  scope EC_0 |- lvalue `( argumentList ) `; -| EC_1
+  scope EC_0 |- lvalue `( argumentList `) ';' -| EC_1
   -- Callee_eval:
       scope EC_0 |- lvalue : callee
   -- if argument* = $flatten_argumentList(argumentList)
   -- Call_eval:
-      scope EC_0 |- callee `( argument* ) -| EC_1
+      scope EC_0 |- callee `( argument* `) -| EC_1
 
 rule Statement_eval/blockStatement:
   scope EC_0 |- blockStatement -| EC_3
@@ -45,16 +45,16 @@ rule Statement_eval/blockStatement:
 rulegroup Statement_eval/conditionalStatement {
 
   rule Statement_eval/then:
-    scope EC_0 |- IF `( expression ) blockStatement_then ELSE blockStatement_else -| EC_1
+    scope EC_0 |- IF `( expression `) blockStatement_then ELSE blockStatement_else -| EC_1
     -- Expr_eval:
-        scope EC_0 |- expression : (`B true)
+        scope EC_0 |- expression : (_B true)
     -- Block_eval:
         EC_0 |- blockStatement_then -| EC_1
 
   rule Statement_eval/else:
-    scope EC_0 |- IF `( expression ) blockStatement_then ELSE blockStatement_else -| EC_1
+    scope EC_0 |- IF `( expression `) blockStatement_then ELSE blockStatement_else -| EC_1
     -- Expr_eval:
-        scope EC_0 |- expression : (`B false)
+        scope EC_0 |- expression : (_B false)
     -- Block_eval:
         EC_0 |- blockStatement_else -| EC_1
 
@@ -75,7 +75,7 @@ rulegroup Statements_eval {
 }
 
 rule Block_eval:
-  EC_0 |- `{ statementList } -| EC_1
+  EC_0 |- `{ statementList `} -| EC_1
   -- if statement* = $flatten_statementList(statementList)
   -- Statements_eval:
       LOCAL EC_0 |- statement* -| EC_1
