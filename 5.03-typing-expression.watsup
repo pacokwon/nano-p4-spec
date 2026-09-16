@@ -16,18 +16,30 @@ rule Expr_ok/referenceExpression:
   -- if id = $id(name)
   -- if _ typeIR = $find_var_t(scope, TC, id)
 
-rulegroup Expr_ok/unaryExpression {
+;; ============================================================================
+;; TODO: A parenthesized expression `( e )` type-checks to
+;;       whatever `e` type-checks to
+;;
+;; syntax parenthesizedExpression = `( expression `)
+;; ============================================================================
+;; rule Expr_ok/parenthesizedExpression:
+;;   scope TC |- parenthesizedExpression : typeIR
 
-  rule Expr_ok/boolean:
-    scope TC |- '!' expression : BOOL
-    -- Expr_ok: scope TC |- expression : BOOL
-
-  rule Expr_ok/integer:
-    scope TC |- unop expression : integerTypeIR
-    -- if unop <- [ '~', '-', '+' ]
-    -- Expr_ok: scope TC |- expression : integerTypeIR
-
-}
+;; ============================================================================
+;; TODO:
+;; Case Analysis:
+;; `!e`: check if e is boolean. then it is boolean.
+;; `~e`, `-e`, `+e`: check if e is integer. then it is integer.
+;;
+;; syntax unop = '!' | '~' | '-' | '+'
+;; syntax unaryExpression = unop expression
+;;
+;; NOTE: In the Nano-P4 spec, the integer type
+;;       is represented as `integerTypeIR`
+;;
+;; ============================================================================
+;; rule Expr_ok/unaryExpression:
+;;   scope TC |- unaryExpression :
 
 rulegroup Expr_ok/binaryExpression {
 
@@ -94,7 +106,3 @@ rulegroup Expr_ok/callExpression {
     -- if controlObjectTypeIR = CONTROL typeId `( parameterIR* `)
 
 }
-
-rule Expr_ok/parenthesizedExpression:
-  scope TC |- `( expression `) : typeIR
-  -- Expr_ok: scope TC |- expression : typeIR
